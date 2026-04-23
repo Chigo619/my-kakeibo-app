@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支出編集</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h1>支出編集</h1>
+
+    <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
+
+    <form action="/update" method="post">
+        <input type="hidden" name="id" th:value="${expense.id}">
+
+        <div class="form-group">
+            <label>日付</label>
+            <input type="date" name="date" th:value="${expense.date}">
+        </div>
+
+        <div class="form-group">
+            <label>金額</label>
+            <input type="number" name="amount" th:value="${expense.amount}">
+        </div>
+
+        <div class="form-group">
+            <label>内容</label>
+            <input type="text" name="content" th:value="${expense.content}">
+        </div>
+
+        <button type="submit" class="submit-button">更新</button>
+    </form>
+
+    <a href="/" class="back-link">一覧に戻る</a>
+</div>
+</body>
+</html>

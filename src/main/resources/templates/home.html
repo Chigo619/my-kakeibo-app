@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>家計簿アプリ</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h1>家計簿アプリ</h1>
+
+    <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
+
+    <form action="/add" method="post">
+        <div class="form-group">
+            <label>日付</label>
+            <input type="date" name="date">
+        </div>
+
+        <div class="form-group">
+            <label>金額</label>
+            <input type="number" name="amount">
+        </div>
+
+        <div class="form-group">
+            <label>内容</label>
+            <input type="text" name="content">
+        </div>
+
+        <button type="submit" class="submit-button">登録</button>
+    </form>
+
+    <h2>支出一覧</h2>
+
+    <div class="table-wrapper">
+        <table>
+            <tr>
+                <th>日付</th>
+                <th>金額</th>
+                <th>内容</th>
+                <th>操作</th>
+            </tr>
+            <tr th:each="expense : ${expenseList}">
+                <td th:text="${expense.date}"></td>
+                <td th:text="${expense.amount}"></td>
+                <td th:text="${expense.content}"></td>
+                <td>
+                    <div class="actions">
+                        <form action="/edit" method="get">
+                            <input type="hidden" name="id" th:value="${expense.id}">
+                            <button type="submit" class="edit-button">編集</button>
+                        </form>
+
+                        <form action="/delete" method="post">
+                            <input type="hidden" name="id" th:value="${expense.id}">
+                            <button type="submit" class="delete-button">削除</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
