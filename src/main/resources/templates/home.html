@@ -28,38 +28,61 @@
             <input type="text" name="content">
         </div>
 
+        <div class="form-group">
+            <label>カテゴリ</label>
+            <select name="category">
+                <option value="">選択してください</option>
+                <option value="食費">食費</option>
+                <option value="日用品">日用品</option>
+                <option value="交通費">交通費</option>
+                <option value="交際費">交際費</option>
+                <option value="通信費">通信費</option>
+                <option value="その他">その他</option>
+            </select>
+        </div>
+
         <button type="submit" class="submit-button">登録</button>
     </form>
 
+    <section class="calendar-section">
+        <h2 th:text="${displayYear} + '年' + ${displayMonth} + '月'"></h2>
+
+        <div class="calendar-grid">
+            <div th:each="day : ${days}" class="calendar-day">
+                <div class="calendar-day-number" th:text="${day}"></div>
+
+                <ul th:if="${calendarExpenses[day] != null}" class="calendar-expense-list">
+                    <li th:each="expense : ${calendarExpenses[day]}">
+                        <span th:text="${expense.category}"></span>
+                        <span th:text="${expense.amount}"></span>円
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
     <h2>支出一覧</h2>
 
-    <div class="table-wrapper">
-        <table>
-            <tr>
-                <th>日付</th>
-                <th>金額</th>
-                <th>内容</th>
-                <th>操作</th>
-            </tr>
-            <tr th:each="expense : ${expenseList}">
-                <td th:text="${expense.date}"></td>
-                <td th:text="${expense.amount}"></td>
-                <td th:text="${expense.content}"></td>
-                <td>
-                    <div class="actions">
-                        <form action="/edit" method="get">
-                            <input type="hidden" name="id" th:value="${expense.id}">
-                            <button type="submit" class="edit-button">編集</button>
-                        </form>
+    <div th:each="entry : ${groupedExpenses}" class="date-group">
+        <h3 th:text="${entry.key}"></h3>
 
-                        <form action="/delete" method="post">
-                            <input type="hidden" name="id" th:value="${expense.id}">
-                            <button type="submit" class="delete-button">削除</button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-        </table>
+        <ul>
+            <li th:each="expense : ${entry.value}">
+                <span th:text="${expense.category}"></span>
+                <span th:text="${expense.content}"></span>
+                <span th:text="${expense.amount}"></span>円
+
+                <form action="/edit" method="get" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${expense.id}">
+                    <button type="submit" class="edit-button">編集</button>
+                </form>
+
+                <form action="/delete" method="post" style="display:inline;">
+                    <input type="hidden" name="id" th:value="${expense.id}">
+                    <button type="submit" class="delete-button">削除</button>
+                </form>
+            </li>
+        </ul>
     </div>
 </div>
 </body>

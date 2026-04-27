@@ -14,15 +14,17 @@ public class Expense {
 
     private String date;
     private int amount;
+    private String category;
     private String content;
 
     public Expense() {
     }
 
-    public Expense(String date, int amount, String content) {
+    public Expense(String date, int amount, String content, String category) {
         this.date = date;
         this.amount = amount;
         this.content = content;
+        this.category = category;
     }
 
     public Long getId() {
@@ -55,5 +57,13 @@ public class Expense {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
